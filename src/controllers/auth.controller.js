@@ -5,12 +5,15 @@ const bcrypt = require("bcryptjs");
 
 async function registerUser(req, res){
 
-    const {username, email, password, role="user"} = req.body;
+    const {username, email, password, role="user"} = req.body; // req.body mai agar role nahi ata, then role-"user" by default set ho jayega.
+
+    // 
+
 
     const isUserAlreadyExists = await userModel.findOne({
-
-        $or: [
-            {username},  // checks for either the condition of username or email, if either of them matches an existing user in the database, it will return that user document.
+// checks for either the condition of username or email, if either of them matches an existing user in the database, it will return that user document.
+        $or: [ 
+            {username},  
             {email}
         ]
 
@@ -34,7 +37,7 @@ async function registerUser(req, res){
     // user create hone ke baad, hume token create karvana hoga
 
     const token = jwt.sign({
-        id: user._id,
+        id: user._id, // token ke andar user ka id aur role store karenge, taki jab bhi user koi request kare toh uske token se hume pata chal jaye ki ye request kis user se aa rahi hai aur uska role kya hai.
         role: user.role
     }, process.env.JWT_SECRET)
 
@@ -55,10 +58,15 @@ async function registerUser(req, res){
 async function loginUser(req, res){
 
     const {username, email, password} = req.body;
+    // in our created schema- we have given unique:true for both username and email, 
+    // so user can login with either username or email, dono mai se koi bhi ek use kar 
+    // sakta hai login karne ke liye, isliye humne yaha par dono ko accept kiya hai.
+
+    // ie ya to username and pass send karega, ya to email and pass send karega, 
 
     const user = await userModel.findOne({
 
-        $or: [
+        $or: [  // dono mai se koi ek condition satisfy ho jaye- toh we have to consider a user
             {username},
             {email}
         ]

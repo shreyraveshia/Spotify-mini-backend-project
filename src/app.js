@@ -1,10 +1,10 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const authRoutes = require('./routes/auth.routes');
 
+const authRoutes = require('./routes/auth.routes');
 const musicRoutes = require('./routes/music.routes');
 
-const app = express();
+const app = express(); // server ka instance create kiya.
 app.use(express.json()); // taki req.body mai data aa sake.
 app.use(cookieParser()); // taki cookie mai hum data set kar sake & jo data cookie se ayega use hum read kar sake.
 
