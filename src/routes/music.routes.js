@@ -17,4 +17,8 @@ router.post("/upload", upload.single("music") ,musicController.createMusic);
 // baad musicController.createMusic function ko call karega.
 
 
+router.post("/album", musicController.createAlbum);
+// album create karne ke liye bhi ek route banayenge, jisme musicController.createAlbum function ko call karenge.
+
+
 module.exports = router;
