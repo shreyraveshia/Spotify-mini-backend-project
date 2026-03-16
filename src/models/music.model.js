@@ -3,7 +3,6 @@ const mongoose = require('mongoose'); // Mongoose is an Object Data Modeling (OD
 const musicSchema = new mongoose.Schema({
 
     // musicfile will go to imagekit, and from there we will get the url of that music file, and we will store that url in our database, so that whenever we want to play that music, we can use that url to play it.
-    // 
     uri:{
         type: String,
         required: true,
