@@ -21,6 +21,7 @@ async function createMusic(req, res) {
 // aur check karenge ki kya role artist hai ya nahi, agar artist hai toh hi music create 
 // karne denge, agar artist nahi hai toh music create karne nahi denge.
 
+/*
      const token = req.cookies.token; 
      // [we will get token from "req.cookies.token", 
      // kyunki humne token ko cookie me set kiya hai, 
@@ -70,7 +71,7 @@ async function createMusic(req, res) {
 
             // agar uske pass sara access rahega, then we will move forward
 
-
+*/
 
         // to create music, we need to have few things
         const {title} = req.body;
@@ -88,7 +89,8 @@ async function createMusic(req, res) {
             uri: result.url, // file ka url ko uri me store karenge, 
             // taki jab bhi music ko play karna ho toh us url se music ko play kar sake.
             title,
-            artist: decoded.id // artist me user ki id ko store karenge, 
+            artist: req.user.id // 
+            // artist me user ki id ko store karenge, 
             // taki hume pata chal sake ki kis user ne ye music upload kiya hai.
         })
 
@@ -99,19 +101,22 @@ async function createMusic(req, res) {
                 title: music.title,
                 artist: music.artist
             }
-        })
-
+      })
+/*
         } catch (err) {
 
             console.log(err);
             return res.status(401).json({ message: "Unauthorized" })
         }
+*/
 }
 
 async function createAlbum(req, res){
 
+/*
     // first of all we will check- album jo create kar raha hai woh ek artist rahe ga, 
     // and to check it, we will do token thing, 
+
 
     const token = req.cookies.token;
 
@@ -127,17 +132,19 @@ async function createAlbum(req, res){
                 // agar role artist nahi hai toh forbidden error bhejenge, kyunki sirf artist hi album create kar sakte hai.
             }
 
+*/
+
     // if it is artist then we will allow them to create album,
 
     // to create album we will be having/coming title and musics, 
     // musics me hum music ke id ko store karenge, taki hume pata chal sake ki kaunse music kis album me hai.
 
-            const {title, musicIds} = req.body; // req.body me se title aur musicIds ko nikalenge, musicIds me music ke id honge, jisko hum album me store karenge.// req.body mai se title aur musicIds ko nikalenge, musicIds me music ke id honge, jisko hum album me store karenge.
+            const {title, musics} = req.body; // req.body me se title aur musicIds ko nikalenge, musicIds me music ke id honge, jisko hum album me store karenge.// req.body mai se title aur musicIds ko nikalenge, musicIds me music ke id honge, jisko hum album me store karenge.
 
             const album = await albumModel.create({
                 title,
-                musics: musicIds, 
-                artist: decoded.id
+                musics: musics, 
+                artist: req.user.id
             })
 
             res.status(201).json({
@@ -145,16 +152,17 @@ async function createAlbum(req, res){
                 album: {
                     id: album._id,
                     title: album.title,
-                    music: album.musics,
+                    musics: album.musics,
                     artist: album.artist
                 }
             })
-
+/*
         }
             catch(err){
                 console.log(err);
                 return res.status(401).json({ message: "Unauthorized" })
             }
+*/
 
 }
 
