@@ -31,4 +31,10 @@ router.post("/album", authMiddleware.authArtist , musicController.createAlbum);
 // album create karne ke liye bhi ek route banayenge, jisme musicController.createAlbum function ko call karenge.
 
 
+router.get("/", authMiddleware.authUser, musicController.getAllMusics);
+
+// is api pe-> normal user: jitne bhi music hamare server pe create hue honge,
+// woh saare music yaha pe sun sakta hain.
+
+
 module.exports = router;

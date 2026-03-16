@@ -32,4 +32,34 @@ async function authArtist(req, res, next) {
             }
 }
 
-module.exports = { authArtist };
+
+async function authUser(req, res, next) {
+
+    const token = req.cookies.token;
+
+    if(!token){
+        return res.status(401).json({ message: "Unauthorized" })
+    }
+
+    try{
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+        if(decoded.role !== "user"){
+            return res.status(403).json({ message: "You dont have access to listen music" }) 
+            // agar role user nahi hai toh forbidden error bhejenge, kyunki sirf user hi music sun sakte hai.
+        }   
+        req.user = decoded; // agar token valid hai toh decoded token(payload) me se user ki information ko req.user me store karenge, taki aage chal kar hum us user ki information ko use kar sake.
+
+        next(); // agar token valid hai toh next() function ko call karenge, taki request aage badh sake.
+
+    }
+
+    catch(err){
+        console.log(err);
+        return res.status(401).json({ message: "Unauthorized" })
+    }
+}
+
+
+
+module.exports = { authArtist, authUser };

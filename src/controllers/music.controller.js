@@ -166,5 +166,20 @@ async function createAlbum(req, res){
 
 }
 
+async function getAllMusics(req, res){
 
-module.exports = { createMusic, createAlbum }
+
+    const musics = await musicModel.find().populate("artist"); 
+    // musicModel se saare music ko find karenge, aur unke andar artist ki information 
+    // ko populate karenge, taki hume pata chal sake ki kaunse music kis artist ne upload kiya hai.
+    // populate means- [saari info aa jana]artist ki poori information aa jayegi.
+
+    res.status(200).json({
+        message: "Music fethed Successfully",
+        musics: musics,
+    })
+    
+}
+
+
+module.exports = { createMusic, createAlbum, getAllMusics }
