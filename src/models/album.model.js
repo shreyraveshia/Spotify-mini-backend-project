@@ -14,7 +14,7 @@ const albumSchema = new mongoose.Schema({
 
     artist: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'artist', // artist collection ke andar se hum yaha par id pass karenge.
+        ref: 'user', // artist user collection ke andar se hum yaha par id pass karenge.
         required: true
     }
     

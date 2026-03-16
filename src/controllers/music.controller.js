@@ -169,7 +169,11 @@ async function createAlbum(req, res){
 async function getAllMusics(req, res){
 
 
-    const musics = await musicModel.find().populate("artist"); 
+    const musics = await musicModel
+    .find()
+    .skip(0)
+    .limit(2)
+    .populate("artist", "username email"); 
     // musicModel se saare music ko find karenge, aur unke andar artist ki information 
     // ko populate karenge, taki hume pata chal sake ki kaunse music kis artist ne upload kiya hai.
     // populate means- [saari info aa jana]artist ki poori information aa jayegi.
@@ -181,5 +185,32 @@ async function getAllMusics(req, res){
     
 }
 
+async function getAllAlbums(req, res){
 
-module.exports = { createMusic, createAlbum, getAllMusics }
+    const albums = await albumModel.find().select("title artist").populate("artist", "username email")
+    // albumModel se saare album ko find karenge, aur unke andar artist ki information 
+    // ko populate karenge, taki hume pata chal sake ki kaunse album kis artist ne create kiya hai.
+    // aur musics ki information ko bhi populate karenge, taki hume pata chal sake ki kaunse album me kaunse music hai.
+
+    res.status(200).json({
+        message: "Albums fetched successfully",
+        albums: albums
+    })
+}
+
+async function getAlbumById(req, res){
+
+    const albumId = req.params.albumId; // req.params me se albumId ko nikalenge, taki hume pata chal sake ki kaunse album ki information chahiye.
+
+    const album = await albumModel.findById(albumId).populate("artist", "username email").populate("musics");
+    // albumModel se album ko find karenge, aur uske andar artist ki information ko populate karenge, taki hume pata chal sake ki kaunse album kis artist ne create kiya hai.
+    // aur musics ki information ko bhi populate karenge, taki hume pata chal sake ki kaunse album me kaunse music hai.
+    
+    return res.status(200).json({
+        message: "Album fetched successfully",
+        album: album
+    })
+}
+
+
+module.exports = { createMusic, createAlbum, getAllMusics, getAllAlbums, getAlbumById };

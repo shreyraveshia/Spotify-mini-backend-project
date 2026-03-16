@@ -36,5 +36,9 @@ router.get("/", authMiddleware.authUser, musicController.getAllMusics);
 // is api pe-> normal user: jitne bhi music hamare server pe create hue honge,
 // woh saare music yaha pe sun sakta hain.
 
+router.get("/albums", authMiddleware.authUser, musicController.getAllAlbums);
+
+router.get("/albums/:albumId", authMiddleware.authUser, musicController.getAlbumById);
+
 
 module.exports = router;
